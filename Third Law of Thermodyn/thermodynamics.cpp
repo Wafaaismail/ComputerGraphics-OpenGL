@@ -1,4 +1,4 @@
-// backPropagation.cpp : Defines the entry point for the console application.
+// thermodynamics.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
