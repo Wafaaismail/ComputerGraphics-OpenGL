@@ -19,6 +19,16 @@ This site was built using [the third law of thermodynamics](https://en.wikipedia
 
 In simple terms, the third law states that the entropy of a perfect crystal of a pure substance approaches zero as the temperature approaches zero. The alignment of a perfect crystal leaves no ambiguity as to the location and orientation of each part of the crystal. As the energy of the crystal is reduced, the vibrations of the individual atoms are reduced to nothing, and the crystal becomes the same everywhere.
 
+![alt text](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png)
+
+### Using openGl c++
+
+We make a small simulation about this law using random motion of some # spheres and a termometer for tempreature measurment control this using up and down keypress as
+                      - Red is the highest tempreature > more velocity more Entropy
+                      -Blue is the lowest tempreature  > less velocity less Entropy
+ ![](gifthermo.gif)
+
+
 
 
 
