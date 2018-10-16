@@ -19,7 +19,7 @@ This site was built using [the third law of thermodynamics](https://en.wikipedia
 
 In simple terms, the third law states that the entropy of a perfect crystal of a pure substance approaches zero as the temperature approaches zero. The alignment of a perfect crystal leaves no ambiguity as to the location and orientation of each part of the crystal. As the energy of the crystal is reduced, the vibrations of the individual atoms are reduced to nothing, and the crystal becomes the same everywhere.
 
-![alt text](ComputerGraphics-OpenGL/Third Law of Thermodyn/Laws-of-Thermodynamics-1600X900 (1).png)
+![alt text](https://github.com/Wafaaismail/ComputerGraphics-OpenGL/blob/master/Third%20Law%20of%20Thermodyn/Laws-of-Thermodynamics-1600X900%20(1).png)
 
 ### Using openGl c++
 
