@@ -20,9 +20,11 @@ using namespace std;
 /***********************************global variables******************************************/
 int degree = 4; //0......--//
 const int maxDegree = 5;
-const int moleNum = 50;
+const int moleNum = 30;
+const int moleNum2 = 30;
 Color tempColors[maxDegree];
 Molecular moleculars[moleNum];
+Molecular moleculars2[moleNum2];
 float _angle = -70.;
 /********************************prototypes************************************************/
 
@@ -104,9 +106,14 @@ void drawMoles() {
 	glTranslatef(0, 0.5, 0);
 	glColor3f(0, 0, 0);
 	for (int i = 0; i < moleNum; i++) {
+		glColor3f(1, 0, 0);
 		drawSphere(moleculars[i].posX, moleculars[i].posY, moleculars[i].posZ);
+		resetColor();
+		glColor3f(0, 1, 0);
+		drawSphere(moleculars2[i].posX+1,.5+ moleculars2[i].posY, .5+moleculars2[i].posZ);
+
 		if (degree != 0) {
-			glRotatef(_angle, 1.0f, 1.0f, 0.0f);
+			glRotatef(_angle, 1.0f, 1.0f, 1.0f);
 			Sleep(maxDegree-degree);
 		}
 
@@ -166,6 +173,9 @@ void drawQuad() {
 void termometer() {
 
 	glPushMatrix();
+	//Add ambient light
+	GLfloat ambientColor[] = { 1.f, 1.f, 1.f, 1.0f }; 
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
 	glTranslatef(-6, -1.5, 0.);
 	glBegin(GL_QUADS);
 	glColor3f(tempColors[degree].red, tempColors[degree].green, tempColors[degree].blue);
@@ -208,10 +218,8 @@ void drawScene() {
 	//glClearColor(1.0f, 1.0f, 204.0 / 255, 1.0f);
 	glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
 	glLoadIdentity(); //Reset the drawing perspective
-
 	termometer();
-	resetColor();
-	//move();
+	//resetColor();
 	glTranslatef(0., 0., -10.);
 	if (degree!=0)   glRotatef(_angle, 0.0f, 1.0f, 1.0f);	
 	//drawSphere();
@@ -251,7 +259,7 @@ void drawSphere(GLfloat x, GLfloat y, GLfloat z) {
 	// glLightfv(GL_LIGHT1,GL_SPECULAR, specularColor);
 	glTranslatef(x, y, z);
 	glRotatef(-70.f, 1.0f, 1.0f, 0.0f);
-	glColor3f(1.0f, 0.0f, 0.0f);
+	//glColor3f(1.0f, 0.0f, 0.0f);
 	glutSolidSphere(.5, 20., 20.);
 
 }
