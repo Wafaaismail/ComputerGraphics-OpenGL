@@ -1,4 +1,4 @@
-// backPropagation.cpp : Defines the entry point for the console application.
+// thermodynamics.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -18,15 +18,12 @@
 
 using namespace std; 
 /***********************************global variables******************************************/
-int degree = 0; //0......6//
-const int tempLength = 6;
+int degree = 4; //0......--//
+const int maxDegree = 5;
 const int moleNum = 50;
-Color tempColors[tempLength];
+Color tempColors[maxDegree];
 Molecular moleculars[moleNum];
-float velocity = .02; 
-float acc = -9.8;
 float _angle = -70.;
-
 /********************************prototypes************************************************/
 
 void molecularInit();
@@ -41,83 +38,8 @@ void drawScene();
 void handleKeypress(unsigned char key, int x, int y);
 void initRendering();
 void handleResize(int w, int h);
-
-
-void move() {
-	double previousTime = glutGet(GLUT_ELAPSED_TIME);
-	double newTime;
-	double dt;
-	double dtx,dty,dtz,posX=0,posY=0,posZ=0;
-	int cnt = 100;
-	while (cnt--) {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(1.0f, 1.0f, 204.0 / 255, 1.0f);
-		glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
-		glLoadIdentity();
-		/*newTime = glutGet(GLUT_ELAPSED_TIME);
-		dt = newTime - previousTime;
-		previousTime = newTime;*/
-		dtx = (rand() % 10) / -10.0;
-		dty = (rand() % 8) / -10.0;
-		dtz = -1 * (2 + rand() % 3);
-		posX += dtx * velocity;
-		posY += dty * velocity;
-		posZ += dtz * velocity;
-		cout << posX<<"\t"<<posY<<"\t"<<posZ << endl;
-		glTranslatef(posX/10.0,posY/10.0,0);
-		glColor3f(0, 0, 0);
-		drawMoles();
-	}
-
-
-
-}
-
-void drawSphere(GLfloat x,GLfloat y ,GLfloat z) {
-	
-	//Add ambient light
-	GLfloat ambientColor[] = { 0.5f, 0.5f, 0.5f, 1.0f }; //Color (0.2, 0.2, 0.2)
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
-	//
-	//Add positioned light
-	GLfloat lightColor0[] = { 0.5f, 0.0f, 0.0f, 1.0f }; //Color (0.5, 0.5, 0.5)
-	GLfloat lightPos0[] = { 4.0f, 0.0f, 8.0f, 1.0f }; //Positioned at (4, 0, 8)
-
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
-
-	//Add directed light
-	GLfloat lightColor1[] = { 0.5f, 0.2f, 0.2f, 1.0f }; //Color (0.5, 0.2, 0.2)
-														//Coming from the direction (-1, 0.5, 0.5)
-	GLfloat lightPos1[] = { -1.0f, 0.5f, 0.5f, 0.0f };
-
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
-	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
-
-	//Specular light
-	GLfloat specularColor[] = { 0.8f,0.8f,1.0f,1.0f };
-	glMaterialfv(GL_FRONT, GL_SPECULAR, specularColor);
-	GLfloat shininess[] = { 100 };
-	glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
-
-	// To add another spot of light   //
-	// glLightfv(GL_LIGHT1,GL_SPECULAR, specularColor);
-	glTranslatef(x, y, z);
-	glRotatef(-70.f, 1.0f, 1.0f, 0.0f);
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glutSolidSphere(.5,20.,20.);
-
-}
-
-void update(int value) {
-	_angle += 1.5f;
-	if (_angle > 360) {
-		_angle -= 360;
-	}
-	
-	glutPostRedisplay();
-	glutTimerFunc(25, update, 0);
-}
+void drawSphere(GLfloat x, GLfloat y, GLfloat z);
+void update(int value);
 
 /************************************************************/
 int main(int argc, char** argv) {
@@ -127,7 +49,7 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(400, 400);
 	//Create the window
-	glutCreateWindow("Back Propagation");
+	glutCreateWindow("Thermodynamics");
 	initRendering();
 
 	molecularInit();
@@ -149,7 +71,7 @@ void molecularInit() {
 	for (int i = 0; i < moleNum; i++)
 	{
 		moleculars[i].Randomize();
-		cout << i << "\t" << moleculars[i].posX << "\t" << moleculars[i].posY << "\t" << moleculars[i].posZ << endl;
+		//cout << i << "\t" << moleculars[i].posX << "\t" << moleculars[i].posY << "\t" << moleculars[i].posZ << endl;
 	}
 
 }
@@ -179,23 +101,24 @@ void resetColor() {
 void drawMoles() {
 	resetColor();
 	glPushMatrix();
-	glTranslatef(0, -0.5, 0);
+	glTranslatef(0, 0.5, 0);
 	glColor3f(0, 0, 0);
 	for (int i = 0; i < moleNum; i++) {
 		drawSphere(moleculars[i].posX, moleculars[i].posY, moleculars[i].posZ);
-		glRotatef(_angle, 0.0f, 1.0f, 1.0f);
+		if (degree != 0) {
+			glRotatef(_angle, 1.0f, 1.0f, 0.0f);
+			Sleep(maxDegree-degree);
+		}
+
 	}
 	glPopMatrix();
 }
 
 void colorsInit() {
-
-	tempColors[0].setColors(103.0 / 255, 119.0 / 255, 224.0 / 255);
-	tempColors[1].setColors(102.0 / 255, 153.0 / 255, 225.0 / 255);
-	tempColors[2].setColors(1, 1, 1);
-	tempColors[3].setColors(255.0 / 255, 255.0 / 255, 153.0 / 255);
-	tempColors[4].setColors(255.0 / 255, 153.0 / 255, 51.0 / 255);
-	tempColors[5].setColors(225.0 / 255, 102.0 / 255, 0.0 / 255);
+	for (double i = 0; i < maxDegree; i+=1) { // i >> degree
+		cout << i / maxDegree << "\t" << 1 - (i / maxDegree) << endl;
+		tempColors[(int)i].setColors(i/maxDegree  , 0, 1 - (i/maxDegree));
+	}
 }
 
 void handleKeypress(unsigned char key, int x, int y) {
@@ -243,13 +166,13 @@ void drawQuad() {
 void termometer() {
 
 	glPushMatrix();
-	glTranslatef(-.5, -1, 0.);
+	glTranslatef(-6, -1.5, 0.);
 	glBegin(GL_QUADS);
 	glColor3f(tempColors[degree].red, tempColors[degree].green, tempColors[degree].blue);
 	glVertex3f(2.5, 0.2, -5.);
 	glVertex3f(2.7, 0.2, -5.);
-	glVertex3f(2.7, 1.5, -5.);
-	glVertex3f(2.5, 1.5, -5.);
+	glVertex3f(2.7, 3, -5.);
+	glVertex3f(2.5, 3, -5.);
 	glEnd();
 	drawFilledCircle(2.6, .1, -5., .15);
 	glPopMatrix();
@@ -262,7 +185,7 @@ void processSpecialKeys(int key, int mx, int my) {
 	switch (key) {
 
 	case GLUT_KEY_UP: //increase temp
-		(degree < tempLength) ? degree = tempLength - 1 : degree += 1;
+		(degree == maxDegree-1) ? degree = maxDegree - 1  : degree += 1;
 		cout << degree << endl;
 		glutPostRedisplay();
 		break;
@@ -286,16 +209,58 @@ void drawScene() {
 	glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
 	glLoadIdentity(); //Reset the drawing perspective
 
-	//termometer();
-	//resetColor();
+	termometer();
+	resetColor();
 	//move();
-	glTranslated(0., 0., -8.);
-	glRotatef(_angle, 0.0f, 1.0f, 1.0f);
-
+	glTranslatef(0., 0., -10.);
+	if (degree!=0)   glRotatef(_angle, 0.0f, 1.0f, 1.0f);	
 	//drawSphere();
 	
 	drawMoles();
 	//drawQuad();
-	glutSwapBuffers();
+	glutSwapBuffers(); 
 }
+void drawSphere(GLfloat x, GLfloat y, GLfloat z) {
 
+	//Add ambient light
+	GLfloat ambientColor[] = { 0.5f, 0.5f, 0.5f, 1.0f }; //Color (0.2, 0.2, 0.2)
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+	//
+	//Add positioned light
+	GLfloat lightColor0[] = { 0.5f, 0.0f, 0.0f, 1.0f }; //Color (0.5, 0.5, 0.5)
+	GLfloat lightPos0[] = { 4.0f, 0.0f, 8.0f, 1.0f }; //Positioned at (4, 0, 8)
+
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+
+	//Add directed light
+	GLfloat lightColor1[] = { 0.5f, 0.2f, 0.2f, 1.0f }; //Color (0.5, 0.2, 0.2)
+														//Coming from the direction (-1, 0.5, 0.5)
+	GLfloat lightPos1[] = { -1.0f, 0.5f, 0.5f, 0.0f };
+
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
+	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+
+	//Specular light
+	GLfloat specularColor[] = { 0.8f,0.8f,1.0f,1.0f };
+	glMaterialfv(GL_FRONT, GL_SPECULAR, specularColor);
+	GLfloat shininess[] = { 100 };
+	glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
+
+	// To add another spot of light   //
+	// glLightfv(GL_LIGHT1,GL_SPECULAR, specularColor);
+	glTranslatef(x, y, z);
+	glRotatef(-70.f, 1.0f, 1.0f, 0.0f);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glutSolidSphere(.5, 20., 20.);
+
+}
+void update(int value) {
+	_angle += 1.5f;
+	if (_angle > 360) {
+		_angle -= 360;
+	}
+
+	glutPostRedisplay();
+	glutTimerFunc(25, update, 0);
+}
