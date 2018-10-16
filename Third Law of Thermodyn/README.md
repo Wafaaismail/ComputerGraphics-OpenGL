@@ -24,8 +24,10 @@ In simple terms, the third law states that the entropy of a perfect crystal of a
 ### Using openGl c++
 
 We make a small simulation about this law using random motion of some # spheres and a termometer for tempreature measurment control this using up and down keypress as
-                      - Red is the highest tempreature >>more velocity more Entropy
-                      -Blue is the lowest tempreature  >>less velocity less Entropy
+
+
+                      -  Red is the highest tempreature  >>more velocity more Entropy
+                      -  Blue is the lowest tempreature  >>less velocity less Entropy
  ![](gifthermo.gif)
 
 
