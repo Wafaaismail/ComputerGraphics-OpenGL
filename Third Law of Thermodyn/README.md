@@ -2,7 +2,7 @@
 
 # ASSIGNMENT 2
 
-with @Manar Arabi
+with @ManarArabi
   # Problem Statement
 
 Build a simulation about any scinetific problem 
