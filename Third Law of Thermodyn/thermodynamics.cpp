@@ -82,7 +82,7 @@ void molecularInit() {
 }
 
 void drawMoles() {
-	molecularInit();
+	//molecularInit();
 	resetColor();
 	glPushMatrix();
 	glTranslatef(0, 0.5, 0);
