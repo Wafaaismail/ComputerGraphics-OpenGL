@@ -28,7 +28,7 @@ We make a small simulation about this law using random motion of some # spheres 
 
                       -  Red is the highest tempreature  >>more velocity more Entropy
                       -  Blue is the lowest tempreature  >>less velocity less Entropy
- ![](gifthermo.gif)
+ ![](d.gif)
 
 
 
